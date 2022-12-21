@@ -1,0 +1,104 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: price-calculator
+data:
+  application-dev.properties: |
+
+    logging.config=/config/log4j2-spring.xml
+  log4j2-spring.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- todo -->
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: price-calculator
+  namespace: mephisto2120
+spec:
+  serviceName: price-calculator
+  selector:
+    matchLabels:
+      app: price-calculator
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8081"
+        prometheus.io/scrape: "true"
+      labels:
+        app: price-calculator
+        creator: mephisto2120
+        logging-type: common-json-format
+    spec:
+      containers:
+        - image: localhost:5000/price-calculator:latest
+          name: price-calculator
+          env:
+            - name: APPLICATION_NAME
+              value: price-calculator
+            - name: ACTIVE_PROFILES
+              value: dev
+            - name: LOGGING_CONFIG_FILE
+              value: /config/log4j2-spring.xml
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: JAVA_OPTS
+              value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/dumps"
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: heap-dumps
+              mountPath: /dumps
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 1Gi
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            timeoutSeconds: 3
+      volumes:
+        - name: config
+          configMap:
+            name: price-calculator
+            defaultMode: 420
+        - name: heap-dumps
+          emptyDir: {}
+  revisionHistoryLimit: 3
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: price-calculator
+spec:
+  type: NodePort
+  selector:
+    app: price-calculator
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31100
