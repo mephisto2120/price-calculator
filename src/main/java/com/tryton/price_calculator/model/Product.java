@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @SuperBuilder
@@ -15,6 +16,6 @@ import java.math.BigDecimal;
 public class Product extends BaseParameters {
     @NotBlank(message = "name is mandatory")
     private String name;
-    @NotBlank(message = "price is mandatory")
+    @Positive(message = "price must be positive")
     private BigDecimal price;
 }
