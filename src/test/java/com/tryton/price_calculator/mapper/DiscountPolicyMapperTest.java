@@ -65,7 +65,7 @@ class DiscountPolicyMapperTest {
 
 	private static DiscountPolicy.DiscountPolicyBuilder<?, ?> createComplaint() {
 		return DiscountPolicy.builder()
-				.name(NAME)
+				//.name(NAME)
 				.createdBy(USER)
 				.modifiedBy(USER);
 	}
@@ -73,7 +73,7 @@ class DiscountPolicyMapperTest {
 	private static void assertCommonFields(DiscountPolicyEntity discountPolicyEntity) {
 		assertThat(discountPolicyEntity).isNotNull();
 		assertThat(discountPolicyEntity.getId()).isNotNull();
-		assertThat(discountPolicyEntity.getName()).isEqualTo(NAME);
+		//assertThat(discountPolicyEntity.getName()).isEqualTo(NAME);
 		assertThat(discountPolicyEntity.getCreatedBy()).isEqualTo(USER);
 		assertThat(discountPolicyEntity.getModifiedBy()).isEqualTo(USER);
 	}

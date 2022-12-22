@@ -1,4 +1,4 @@
-package com.tryton.price_calculator.service.mongo;
+package com.tryton.price_calculator.service;
 
 import com.tryton.price_calculator.domain.mongo.DiscountPolicyEntity;
 import com.tryton.price_calculator.mapper.DiscountPolicyMapper;

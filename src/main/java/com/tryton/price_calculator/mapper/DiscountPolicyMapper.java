@@ -1,7 +1,6 @@
 package com.tryton.price_calculator.mapper;
 
 import com.tryton.price_calculator.domain.mongo.DiscountPolicyEntity;
-import com.tryton.price_calculator.mapper.ModelMapper;
 import com.tryton.price_calculator.model.DiscountPolicy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

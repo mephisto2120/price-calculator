@@ -20,4 +20,11 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
+
+    @ExceptionHandler(value = ProductNotFoundException.class)
+    protected ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException ex, WebRequest request) {
+        log.error(ex.getMessage(), ex);
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 }

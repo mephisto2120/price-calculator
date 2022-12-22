@@ -20,7 +20,7 @@ public class OpenApiConfig {
     public OpenAPI api(Environment environment) {
         return new OpenAPI().addServersItem(new Server().url("/"))
                 .info(new Info().title("Price calculator")
-                        .description("This price calculator service was developed to calculate discount of shipment.")
+                        .description("This price calculator service was developed to calculate discount of shop.")
                         .version("v1")
                         .contact(new Contact().name("mephisto")
                                 .email("mephisto2120@gmail.com"))
