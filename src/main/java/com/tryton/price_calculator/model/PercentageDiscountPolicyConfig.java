@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @SuperBuilder
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class PercentageDiscountPolicyConfig extends BaseParameters {
-    @NotBlank(message = "discount is mandatory")
+    @NotNull(message = "discount is mandatory")
     private BigDecimal discount;
 }
 

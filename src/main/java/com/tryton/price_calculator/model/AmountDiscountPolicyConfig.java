@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.TreeMap;
 
@@ -14,6 +14,6 @@ import java.util.TreeMap;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class AmountDiscountPolicyConfig extends BaseParameters {
-    @NotBlank(message = "discountMap is mandatory")
+    @NotNull(message = "discountMap is mandatory")
     private TreeMap<Integer, BigDecimal> discountMap;
 }
