@@ -1,0 +1,143 @@
+
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id "io.freefair.lombok" version "6.5.1"
+    id 'org.springframework.boot' version '2.7.5'
+	id 'jacoco'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://repo.maven.apache.org/maven2/')
+    }
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-validation:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+	implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion"
+
+    implementation "io.micrometer:micrometer-core:$micrometerVersion"
+    implementation "io.micrometer:micrometer-registry-prometheus:$micrometerVersion"
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'commons-io:commons-io:2.11.0'
+
+	implementation "org.mapstruct:mapstruct:$mapstructVersion"
+	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+
+    testImplementation 'io.rest-assured:rest-assured:4.2.0'
+    testImplementation 'io.rest-assured:rest-assured-all:4.2.0'
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+    testImplementation 'org.junit.platform:junit-platform-runner:1.8.2'
+    testImplementation 'org.awaitility:awaitility:4.1.1'
+
+	implementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring27x:$embedMongoVersion"
+
+	testImplementation 'org.mongounit:mongounit:2.0.1'
+	//those dependencies must be overridden, because library above takes some old versions, incompatible with spring-boot-starter-data-mongodb
+	testImplementation 'org.mongodb:mongodb-driver-legacy:4.6.0'
+}
+
+group = 'com.tryton'
+version = '0.0.1-SNAPSHOT'
+description = 'price-calculator'
+java.sourceCompatibility = JavaVersion.VERSION_11
+
+task copyWithoutSnapshotInName(type: Copy) {
+	from "$buildDir/libs"
+	into "$buildDir/libs"
+	rename { filename ->
+		System.out.println "File matched to rename is $buildDir/libs" + filename
+		filename.replace "-$version", ''
+	}
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs = [
+			'-Amapstruct.suppressGeneratorTimestamp=true'
+	]
+}
+
+
+test {
+	useJUnitPlatform()
+	//in order to generate report even if some test fails
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it,
+					exclude: ['com/tryton/price-calculator/Launcher.class',
+							  'com/tryton/price-calculator/config/**',
+							  'com/tryton/price-calculator/exceptions/**',
+							  'com/tryton/price-calculator/model/**'])
+		}))
+	}
+}
+
+jacocoTestCoverageVerification {
+	dependsOn jacocoTestReport
+	violationRules {
+		rule {
+			limit {
+				counter = 'LINE'
+				minimum = 0.74
+			}
+			limit {
+				counter = 'INSTRUCTION'
+				minimum = 0.45
+			}
+			limit {
+				counter = 'BRANCH'
+				minimum = 0.08
+			}
+			limit {
+				counter = 'COMPLEXITY'
+				minimum = 0.47
+			}
+			limit {
+				counter = 'METHOD'
+				minimum = 0.64
+			}
+			limit {
+				counter = 'CLASS'
+				minimum = 0.83
+			}
+		}
+	}
+}
+
+//check.dependsOn jacocoTestCoverageVerification
+
+bootRun {
+	systemProperties = System.properties
+}
