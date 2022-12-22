@@ -25,7 +25,7 @@ spec:
     metadata:
       annotations:
         prometheus.io/path: "/actuator/prometheus"
-        prometheus.io/port: "10081"
+        prometheus.io/port: "8081"
         prometheus.io/scrape: "true"
       labels:
         app: price-calculator
@@ -53,7 +53,7 @@ spec:
             - name: JAVA_OPTS
               value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/dumps"
           ports:
-            - containerPort: 10080
+            - containerPort: 8080
           volumeMounts:
             - name: config
               mountPath: /config
@@ -69,13 +69,13 @@ spec:
               memory: 1Gi
           livenessProbe:
             tcpSocket:
-              port: 10080
+              port: 8080
             initialDelaySeconds: 60
             periodSeconds: 20
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 10081
+              port: 8081
             initialDelaySeconds: 120
             periodSeconds: 10
             timeoutSeconds: 3
@@ -99,6 +99,6 @@ spec:
     app: price-calculator
   ports:
     - protocol: TCP
-      port: 10080
-      targetPort: 10080
+      port: 8080
+      targetPort: 8080
       nodePort: 31100
