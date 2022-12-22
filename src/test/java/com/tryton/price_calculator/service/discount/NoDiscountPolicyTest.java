@@ -7,14 +7,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 
+import static com.tryton.price_calculator.service.discount.DiscountPolicyConstants.DEFAULT_SCALE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class NoDiscountPolicyTest {
     private static final BigDecimal INITIAL_PRICE = BigDecimal.TEN;
     private static final int QUANTITY_1 = 5;
     private static final int QUANTITY_2 = 20;
-    private static final int DEFAULT_SCALE = 2;
-
     private final NoDiscountPolicy noDiscountPolicy = new NoDiscountPolicy();
 
     @ParameterizedTest

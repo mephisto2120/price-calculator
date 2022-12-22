@@ -4,6 +4,9 @@ import com.tryton.price_calculator.model.PercentageDiscountPolicyConfig;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static com.tryton.price_calculator.service.discount.DiscountPolicyConstants.DEFAULT_SCALE;
 
 @RequiredArgsConstructor
 public class PercentageBasedDiscountPolicy implements DiscountPolicy {
@@ -13,7 +16,9 @@ public class PercentageBasedDiscountPolicy implements DiscountPolicy {
     public BigDecimal applyDiscount(CalculationContext calculationContext) {
         BigDecimal discount = percentageDiscountPolicyConfig.getDiscount().divide(BigDecimal.valueOf(100));
         BigDecimal multiplicand = BigDecimal.ONE.subtract(discount);
-        return calculationContext.getPrice()
+        BigDecimal priceWithDiscount = calculationContext.getPrice()
                 .multiply(multiplicand);
+        return priceWithDiscount.multiply(BigDecimal.valueOf(calculationContext.getQuantity()))
+                .setScale(DEFAULT_SCALE, RoundingMode.CEILING);
     }
 }

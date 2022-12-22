@@ -11,13 +11,12 @@ import java.math.BigDecimal;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
+import static com.tryton.price_calculator.service.discount.DiscountPolicyConstants.DEFAULT_SCALE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AmountBasedDiscountPolicyTest {
-    private static final BigDecimal INITIAL_PRICE = BigDecimal.TEN;
-    private static final BigDecimal EXPECTED_PRICE_1 = BigDecimal.valueOf(9.00);
-    private static final BigDecimal EXPECTED_PRICE_2 = BigDecimal.valueOf(8.00);
+    private static final BigDecimal INITIAL_PRICE = BigDecimal.TEN.setScale(DEFAULT_SCALE);
     private static final int QUANTITY_1 = 5;
     private static final int QUANTITY_2 = 20;
     private static final BigDecimal DISCOUNT_1_IN_PERCENTS = BigDecimal.TEN;
@@ -51,11 +50,12 @@ class AmountBasedDiscountPolicyTest {
 
     private static Stream<Arguments> applyDiscount() {
         return Stream.of(
-                Arguments.of(QUANTITY_1, EXPECTED_PRICE_1),
-                Arguments.of(QUANTITY_2, EXPECTED_PRICE_2),
-                Arguments.of(6, EXPECTED_PRICE_1),
-                Arguments.of(21, EXPECTED_PRICE_2),
-                Arguments.of(1, INITIAL_PRICE)
+                Arguments.of(QUANTITY_1, BigDecimal.valueOf(45).setScale(DEFAULT_SCALE)),
+                Arguments.of(QUANTITY_2, BigDecimal.valueOf(160).setScale(DEFAULT_SCALE)),
+                Arguments.of(6, BigDecimal.valueOf(54).setScale(DEFAULT_SCALE)),
+                Arguments.of(21, BigDecimal.valueOf(168).setScale(DEFAULT_SCALE)),
+                Arguments.of(1, INITIAL_PRICE),
+                Arguments.of(0, BigDecimal.ZERO.setScale(DEFAULT_SCALE))
         );
     }
 }
