@@ -1,7 +1,6 @@
-package com.tryton.price_calculator.mapper.shipment.mongo;
+package com.tryton.price_calculator.mapper;
 
 import com.tryton.price_calculator.domain.mongo.DiscountPolicyEntity;
-import com.tryton.price_calculator.mapper.DiscountPolicyMapper;
 import com.tryton.price_calculator.model.DiscountPolicy;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -14,7 +13,7 @@ class DiscountPolicyMapperTest {
 
 	private static final String USER = "HikaruAppUser";
 	private static final String NAME = "Hikaru";
-	private static final String EMAIL = "hikaru@gmail.com";
+
 	public static final LocalDateTime CREATED_AT = LocalDateTime.of(2022, 12, 5, 12, 20, 30);
 	private static final String CREATED_AT_STR = "2022-12-05T12:20:30";
 

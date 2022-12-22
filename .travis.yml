@@ -1,7 +1,7 @@
 language: java
 os: linux
 dist: trusty
-jdk: openjdk11
+jdk: openjdk17
 sudo: required
 services:
   - docker
@@ -11,7 +11,7 @@ script:
   -  ./gradlew copyWithoutSnapshotInName
 
 after_success:
-  - docker build -t mephisto2120/price-calculator .
+  - docker build -f Dockerfile.prod -t mephisto2120/price-calculator .
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
