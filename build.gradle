@@ -36,14 +36,14 @@ dependencies {
 	implementation "org.mapstruct:mapstruct:$mapstructVersion"
 	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 
-    testImplementation 'io.rest-assured:rest-assured:4.2.0'
-    testImplementation 'io.rest-assured:rest-assured-all:4.2.0'
+    testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+    testImplementation "io.rest-assured:rest-assured-all:$restAssuredVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit5VersionVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5VersionVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5VersionVersion"
     testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
-    testImplementation 'org.junit.platform:junit-platform-runner:1.8.2'
+    testImplementation 'org.junit.platform:junit-platform-runner:1.9.1'
     testImplementation 'org.awaitility:awaitility:4.1.1'
 
 	implementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring27x:$embedMongoVersion"
@@ -56,7 +56,7 @@ dependencies {
 group = 'com.tryton'
 version = '0.0.1-SNAPSHOT'
 description = 'price-calculator'
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 task copyWithoutSnapshotInName(type: Copy) {
 	from "$buildDir/libs"
