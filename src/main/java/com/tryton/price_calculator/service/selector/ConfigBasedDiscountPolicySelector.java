@@ -1,25 +1,27 @@
 package com.tryton.price_calculator.service.selector;
 
-import com.tryton.price_calculator.service.discount.AmountBasedDiscountPolicy;
 import com.tryton.price_calculator.service.discount.DiscountPolicy;
-import com.tryton.price_calculator.service.discount.NoDiscountPolicy;
-import com.tryton.price_calculator.service.discount.PercentageBasedDiscountPolicy;
+import com.tryton.price_calculator.service.discount.DiscountPolicyProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 
 @RequiredArgsConstructor
+@CommonsLog
 public class ConfigBasedDiscountPolicySelector implements DiscountPolicySelector {
     private final String appliedPolicyName;
-    private final PercentageBasedDiscountPolicy percentageBasedDiscountPolicy;
-    private final AmountBasedDiscountPolicy amountBasedDiscountPolicy;
-    private final NoDiscountPolicy noDiscountPolicy;
+    private final DiscountPolicyProvider percentageBasedDiscountPolicyProvider;
+    private final DiscountPolicyProvider amountBasedDiscountPolicyProvider;
+    private final DiscountPolicyProvider noDiscountPolicyProvider;
 
     @Override
     public DiscountPolicy select() {
+        log.info("appliedPolicyName=" + appliedPolicyName);
+
         if ("percentage".equalsIgnoreCase(appliedPolicyName)) {
-            return percentageBasedDiscountPolicy;
+            return percentageBasedDiscountPolicyProvider.provide();
         } else if ("amount".equalsIgnoreCase(appliedPolicyName)) {
-            return amountBasedDiscountPolicy;
+            return amountBasedDiscountPolicyProvider.provide();
         }
-        return noDiscountPolicy;
+        return noDiscountPolicyProvider.provide();
     }
 }

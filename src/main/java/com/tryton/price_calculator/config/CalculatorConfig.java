@@ -10,6 +10,10 @@ import com.tryton.price_calculator.repository.mongo.ProductRepository;
 import com.tryton.price_calculator.service.AmountDiscountPolicyService;
 import com.tryton.price_calculator.service.PercentageDiscountPolicyService;
 import com.tryton.price_calculator.service.ProductService;
+import com.tryton.price_calculator.service.discount.NoDiscountPolicy;
+import com.tryton.price_calculator.service.discount.PercentageBasedDiscountPolicy;
+import com.tryton.price_calculator.service.selector.ConfigBasedDiscountPolicySelector;
+import com.tryton.price_calculator.service.selector.DiscountPolicySelector;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,14 +23,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CalculatorConfig {
 
-    @Value("calculator.appliedPolicyName")
+    @Value("${calculator.appliedPolicyName}")
     private String appliedPolicyName;
 
     @Autowired
     private DiscountPolicyRepository discountPolicyRepository;
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private PercentageDiscountPolicyConfigRepository percentageDiscountPolicyConfigRepository;
     @Autowired
@@ -49,9 +52,12 @@ public class CalculatorConfig {
                 Mappers.getMapper(AmountDiscountPolicyConfigMapper.class));
     }
 
-/*
     @Bean
     public DiscountPolicySelector configBasedDiscountPolicySelector() {
-        return new ConfigBasedDiscountPolicySelector(productRepository, Mappers.getMapper(ProductMapper.class));
-    }*/
+        return new ConfigBasedDiscountPolicySelector(appliedPolicyName,
+                percentageDiscountPolicyService(),
+                amountDiscountPolicyService(),
+                () -> new NoDiscountPolicy()
+        );
+    }
 }

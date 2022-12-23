@@ -5,10 +5,13 @@ import com.tryton.price_calculator.exception.handler.PolicyNotFoundException;
 import com.tryton.price_calculator.mapper.AmountDiscountPolicyConfigMapper;
 import com.tryton.price_calculator.model.AmountDiscountPolicyConfig;
 import com.tryton.price_calculator.repository.mongo.AmountDiscountPolicyConfigRepository;
+import com.tryton.price_calculator.service.discount.AmountBasedDiscountPolicy;
+import com.tryton.price_calculator.service.discount.DiscountPolicy;
+import com.tryton.price_calculator.service.discount.DiscountPolicyProvider;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AmountDiscountPolicyService {
+public class AmountDiscountPolicyService implements DiscountPolicyProvider {
     private static final String DEFAULT_POLICY = "default-policy";
 
     private final AmountDiscountPolicyConfigRepository amountDiscountPolicyConfigRepository;
@@ -25,5 +28,10 @@ public class AmountDiscountPolicyService {
         AmountDiscountPolicyConfigEntity policyEntity = amountDiscountPolicyConfigRepository.findById(DEFAULT_POLICY)
                 .orElseThrow(() -> new PolicyNotFoundException("Policy " + DEFAULT_POLICY + " was not found"));
         return amountDiscountPolicyConfigMapper.toDto(policyEntity);
+    }
+
+    @Override
+    public DiscountPolicy provide() {
+        return new AmountBasedDiscountPolicy(get());
     }
 }
