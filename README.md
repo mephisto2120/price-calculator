@@ -1,4 +1,5 @@
 # price-calculator
+## Requirements
 In order to run application installed JDK 17 is required. 
 Installing gradle is optional, because wrapper can be used.
 
@@ -12,9 +13,10 @@ sdk use java 17.0.5-amzn
 
 (or accept version as default after installation)
 
+## Running locally
 Application has configured OpenAPI and starts after typing in cmd line:
 
-./gradlew clean build bootRun
+#### ./gradlew clean build bootRun
 
 For examples below there is assumption that curl is installed otherwise you can use API given by swagger UI.
 
@@ -64,7 +66,6 @@ curl -X 'PUT' \
 }
 }'
 
-
 Percentage based:
 curl -X 'PUT' \
 'http://localhost:8080/shop/v1/discount-policy/percentage' \
@@ -111,8 +112,23 @@ curl -X 'GET' \
 'http://localhost:8080/shop/v1/price-calculator/calculate?productId=abc-123&amount=5' \
 -H 'accept: application/json'
 
+## Mongo setup
+Locally it works with embedded mongo, but for production configuration you need to pass a few variables:
+spring.data.mongodb.host
+spring.data.mongodb.database
+spring.data.mongodb.username
+spring.data.mongodb.password
 
-Containerizing:
+In order not to hardcode those values in properties you can use in Elastic BeansTalk environment variables.
+It would be (SPRING_DATA_MONGODB_HOST) and so on. 
+For kubernetes values can be stored in secrets.
+
+Free cluster in cloud can be created here:
+https://mongodb.com/
+
+
+## Containerizing:
+### The first possibility
 App is ready do be containerized. In order to do it you have to use Dockerfile.prod with docker.
 (Please note that Dockerfile.prod is unusual name, because of Elastic BeansTalk deployment problem with using just Dockerfile)
 docker build -f Dockerfile.prod -t mephisto2120/price-calculator .
@@ -121,11 +137,11 @@ docker push mephisto2120/price-calculator
 Afterwards you can deploy it in AWS as Elastic BeansTalk with using file
 Dockerrun.aws.json
 
-The second possibility:
+### The second possibility
 Create account on travis CI. Travis will deploy it if proper enviroment variables are defined for a job as:
 $DOCKER_PASSWORD, $DOCKER_ID for accessing docker repository
 $AWS_ACCESS_KEY, $AWS_SECRET_KEY for deploying to S3 service for using Elastic BeansTalk
 
-The third possibility
+### The third possibility
 In folder k8s there is config for kubernetes, kubectl has to be configured to have access to cluster or minikube is started locally:
 kubectl apply -f k8s/price-calculator-prod.yaml
