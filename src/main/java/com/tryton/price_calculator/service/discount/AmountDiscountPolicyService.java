@@ -9,8 +9,10 @@ import com.tryton.price_calculator.service.discount.AmountBasedDiscountPolicy;
 import com.tryton.price_calculator.service.discount.DiscountPolicy;
 import com.tryton.price_calculator.service.discount.DiscountPolicyProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 
 @RequiredArgsConstructor
+@CommonsLog
 public class AmountDiscountPolicyService implements DiscountPolicyProvider {
     private static final String DEFAULT_POLICY = "default-policy";
 
@@ -22,6 +24,7 @@ public class AmountDiscountPolicyService implements DiscountPolicyProvider {
         configEntity.setId(DEFAULT_POLICY);
         amountDiscountPolicyConfigRepository.deleteById(DEFAULT_POLICY);
         amountDiscountPolicyConfigRepository.save(configEntity);
+        log.info("Policy has been updated= " + policy);
     }
 
     public AmountDiscountPolicyConfig get() {

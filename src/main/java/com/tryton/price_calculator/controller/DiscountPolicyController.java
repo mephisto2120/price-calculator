@@ -1,8 +1,10 @@
 package com.tryton.price_calculator.controller;
 
 import com.tryton.price_calculator.model.AmountDiscountPolicyConfig;
+import com.tryton.price_calculator.model.AppliedDiscountPolicyConfig;
 import com.tryton.price_calculator.model.PercentageDiscountPolicyConfig;
 import com.tryton.price_calculator.service.discount.AmountDiscountPolicyService;
+import com.tryton.price_calculator.service.discount.AppliedDiscountPolicyService;
 import com.tryton.price_calculator.service.discount.PercentageDiscountPolicyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +32,7 @@ public class DiscountPolicyController {
 
     private final PercentageDiscountPolicyService percentageDiscountPolicyService;
     private final AmountDiscountPolicyService amountDiscountPolicyService;
+    private final AppliedDiscountPolicyService appliedDiscountPolicyService;
 
     @GetMapping(path = "/discount-policy/percentage")
     @Operation(summary = "Retrieves info about percentage discount policy")
@@ -85,5 +88,33 @@ public class DiscountPolicyController {
         log.info("Starting updatePercentageDiscountPolicy.");
         amountDiscountPolicyService.upsert(discountPolicy);
         log.info("Finished updatePercentageDiscountPolicy.");
+    }
+
+    @GetMapping(path = "/discount-policy/current")
+    @Operation(summary = "Retrieves info about currently set discount policy")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retrieves info about currently set discount policy",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "In case of validation error",
+                    content = @Content)})
+    public AppliedDiscountPolicyConfig getAppliedDiscountPolicy() {
+        log.info("Starting getAppliedDiscountPolicy.");
+        AppliedDiscountPolicyConfig policyConfig = appliedDiscountPolicyService.get();
+        log.info("Finished getAppliedDiscountPolicy.");
+        return policyConfig;
+    }
+
+    @PutMapping(path = "/discount-policy/current")
+    @Operation(summary = "Updates current amount discount policy")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updates current discount policy",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "In case of validation error",
+                    content = @Content)})
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateAppliedDiscountPolicy(@Valid @RequestBody AppliedDiscountPolicyConfig discountPolicy) {
+        log.info("Starting updateAppliedDiscountPolicy.");
+        appliedDiscountPolicyService.upsert(discountPolicy);
+        log.info("Finished updateAppliedDiscountPolicy.");
     }
 }

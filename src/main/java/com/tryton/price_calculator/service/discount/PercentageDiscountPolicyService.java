@@ -5,12 +5,11 @@ import com.tryton.price_calculator.exception.handler.PolicyNotFoundException;
 import com.tryton.price_calculator.mapper.PercentageDiscountPolicyConfigMapper;
 import com.tryton.price_calculator.model.PercentageDiscountPolicyConfig;
 import com.tryton.price_calculator.repository.mongo.PercentageDiscountPolicyConfigRepository;
-import com.tryton.price_calculator.service.discount.DiscountPolicy;
-import com.tryton.price_calculator.service.discount.DiscountPolicyProvider;
-import com.tryton.price_calculator.service.discount.PercentageBasedDiscountPolicy;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 
 @RequiredArgsConstructor
+@CommonsLog
 public class PercentageDiscountPolicyService implements DiscountPolicyProvider {
     private static final String DEFAULT_POLICY = "default-policy";
 
@@ -22,6 +21,7 @@ public class PercentageDiscountPolicyService implements DiscountPolicyProvider {
         configEntity.setId(DEFAULT_POLICY);
         percentageDiscountPolicyConfigRepository.deleteById(DEFAULT_POLICY);
         percentageDiscountPolicyConfigRepository.save(configEntity);
+        log.info("Policy has been updated= " + policy);
     }
 
     public PercentageDiscountPolicyConfig get() {

@@ -31,7 +31,7 @@ curl -X 'PUT' \
 -H 'accept: application/json' \
 -H 'Content-Type: application/json' \
 -d '{
-"id": "def-456",
+"id": "default-policy",
 "description": "default amount policy",
 "createdAt": "2022-12-23T05:57:21.569Z",
 "createdBy": "mephisto2120",
@@ -69,3 +69,18 @@ curl -X 'GET' \
 curl -X 'GET' \
 'http://localhost:8080/shop/v1/price-calculator/calculate?productId=abc-123&amount=5' \
 -H 'accept: application/json'
+
+
+curl -X 'PUT' \
+'http://localhost:8080/shop/v1/discount-policy/current' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{
+"id": "default-policy",
+"description": "selected policy name",
+"createdAt": "2022-12-23T08:18:53.793Z",
+"createdBy": "mephisto2120",
+"modifiedAt": "2022-12-23T08:18:53.793Z",
+"modifiedBy": "mephisto2120",
+"policyName": "amount"
+}'

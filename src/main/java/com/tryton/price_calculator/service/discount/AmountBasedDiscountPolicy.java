@@ -2,6 +2,7 @@ package com.tryton.price_calculator.service.discount;
 
 import com.tryton.price_calculator.model.AmountDiscountPolicyConfig;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,6 +11,7 @@ import java.util.Map;
 import static com.tryton.price_calculator.service.discount.DiscountPolicyConstants.DEFAULT_SCALE;
 
 @RequiredArgsConstructor
+@CommonsLog
 public class AmountBasedDiscountPolicy implements DiscountPolicy {
     private final AmountDiscountPolicyConfig amountDiscountPolicyConfig;
 
@@ -24,9 +26,11 @@ public class AmountBasedDiscountPolicy implements DiscountPolicy {
         BigDecimal discount = floorEntry
                 .getValue()
                 .divide(BigDecimal.valueOf(100));
+        log.info("discount=" + discount);
         BigDecimal multiplicand = BigDecimal.ONE.subtract(discount);
         BigDecimal priceWithDiscount = calculationContext.getPrice()
                 .multiply(multiplicand);
+        log.info("priceWithDiscount=" + priceWithDiscount);
         return multiple(priceWithDiscount, calculationContext.getQuantity());
     }
 
