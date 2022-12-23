@@ -1,4 +1,4 @@
-package com.tryton.price_calculator.service.selector;
+package com.tryton.price_calculator.service.discount.selector;
 
 import com.tryton.price_calculator.service.discount.DiscountPolicy;
 

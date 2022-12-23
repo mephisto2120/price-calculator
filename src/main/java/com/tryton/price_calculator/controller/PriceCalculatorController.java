@@ -1,11 +1,6 @@
 package com.tryton.price_calculator.controller;
 
-import com.tryton.price_calculator.model.Product;
 import com.tryton.price_calculator.service.PriceCalculatorService;
-import com.tryton.price_calculator.service.discount.CalculationContext;
-import com.tryton.price_calculator.service.discount.DefaultCalculationContext;
-import com.tryton.price_calculator.service.discount.DiscountPolicy;
-import com.tryton.price_calculator.service.selector.DiscountPolicySelector;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

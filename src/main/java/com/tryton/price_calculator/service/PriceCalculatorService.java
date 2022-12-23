@@ -4,7 +4,7 @@ import com.tryton.price_calculator.model.Product;
 import com.tryton.price_calculator.service.discount.CalculationContext;
 import com.tryton.price_calculator.service.discount.DefaultCalculationContext;
 import com.tryton.price_calculator.service.discount.DiscountPolicy;
-import com.tryton.price_calculator.service.selector.DiscountPolicySelector;
+import com.tryton.price_calculator.service.discount.selector.DiscountPolicySelector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Service;
