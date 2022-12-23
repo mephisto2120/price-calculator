@@ -1,11 +1,10 @@
 [
   {
-	"collectionName": "opinion",
+	"collectionName": "product",
 	"documents": [
 	  {
-		"name": "Daniel",
-		"email": "danya@gmail.com",
-		"opinion": "Test opinion",
+		"name": "someSuperProduct",
+		"price": "10.00",
 		"createdAt": "2022-12-02T12:20:30",
 		"createdBy": "123",
 		"modifiedAt": "2022-12-02T12:20:30",

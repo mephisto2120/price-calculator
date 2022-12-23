@@ -99,6 +99,7 @@ jacocoTestReport {
 					exclude: ['com/tryton/price-calculator/Launcher.class',
 							  'com/tryton/price-calculator/config/**',
 							  'com/tryton/price-calculator/exceptions/**',
+							  'com/tryton/price_calculator/domain/mongo/**',
 							  'com/tryton/price-calculator/model/**'])
 		}))
 	}
