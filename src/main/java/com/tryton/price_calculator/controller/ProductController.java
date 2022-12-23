@@ -35,9 +35,9 @@ public class ProductController {
                     content = {@Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "In case of validation error",
                     content = @Content)})
-    public Product getProduct(@RequestParam String uuid) {
+    public Product getProduct(@RequestParam String productId) {
         log.info("Starting getProduct.");
-        Product product = productService.getProduct(uuid);
+        Product product = productService.getProduct(productId);
         log.info("Finished getProduct.");
         return product;
     }
