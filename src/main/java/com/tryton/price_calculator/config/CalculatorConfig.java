@@ -7,11 +7,10 @@ import com.tryton.price_calculator.repository.mongo.AmountDiscountPolicyConfigRe
 import com.tryton.price_calculator.repository.mongo.DiscountPolicyRepository;
 import com.tryton.price_calculator.repository.mongo.PercentageDiscountPolicyConfigRepository;
 import com.tryton.price_calculator.repository.mongo.ProductRepository;
-import com.tryton.price_calculator.service.AmountDiscountPolicyService;
-import com.tryton.price_calculator.service.PercentageDiscountPolicyService;
+import com.tryton.price_calculator.service.discount.AmountDiscountPolicyService;
+import com.tryton.price_calculator.service.discount.PercentageDiscountPolicyService;
 import com.tryton.price_calculator.service.ProductService;
 import com.tryton.price_calculator.service.discount.NoDiscountPolicy;
-import com.tryton.price_calculator.service.discount.PercentageBasedDiscountPolicy;
 import com.tryton.price_calculator.service.selector.ConfigBasedDiscountPolicySelector;
 import com.tryton.price_calculator.service.selector.DiscountPolicySelector;
 import org.mapstruct.factory.Mappers;

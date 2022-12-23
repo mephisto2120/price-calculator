@@ -1,4 +1,4 @@
-package com.tryton.price_calculator.service;
+package com.tryton.price_calculator.service.discount;
 
 import com.tryton.price_calculator.domain.mongo.AmountDiscountPolicyConfigEntity;
 import com.tryton.price_calculator.exception.handler.PolicyNotFoundException;

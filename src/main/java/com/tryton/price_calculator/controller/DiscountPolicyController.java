@@ -2,8 +2,8 @@ package com.tryton.price_calculator.controller;
 
 import com.tryton.price_calculator.model.AmountDiscountPolicyConfig;
 import com.tryton.price_calculator.model.PercentageDiscountPolicyConfig;
-import com.tryton.price_calculator.service.AmountDiscountPolicyService;
-import com.tryton.price_calculator.service.PercentageDiscountPolicyService;
+import com.tryton.price_calculator.service.discount.AmountDiscountPolicyService;
+import com.tryton.price_calculator.service.discount.PercentageDiscountPolicyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
