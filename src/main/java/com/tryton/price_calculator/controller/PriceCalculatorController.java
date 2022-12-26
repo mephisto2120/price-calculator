@@ -2,6 +2,8 @@ package com.tryton.price_calculator.controller;
 
 import com.tryton.price_calculator.service.PriceCalculatorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,9 +27,13 @@ public class PriceCalculatorController {
     private final PriceCalculatorService priceCalculatorService;
 
     @GetMapping(path = "/calculate")
-    @Operation(summary = "Calculates price for delivering parcels")
+    @Operation(summary = "Calculates price for purchase")
+    @Parameters({
+            @Parameter(name = "productId", example = "abc-123"),
+            @Parameter(name = "amount", example = "10")
+    })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Retrieves info about product",
+            @ApiResponse(responseCode = "200", description = "Calculates price for purchase",
                     content = {@Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "In case of validation error",
                     content = @Content)})

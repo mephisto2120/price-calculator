@@ -1,5 +1,6 @@
 package com.tryton.price_calculator.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,11 @@ import java.util.TreeMap;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class AmountDiscountPolicyConfig extends BaseParameters {
+    @Schema(example = "{" +
+            "\"5\": 5," +
+            "\"10\": 20," +
+            "\"50\": 30" +
+            "}")
     @NotNull(message = "discountMap is mandatory")
     private TreeMap<Integer, BigDecimal> discountMap;
 }

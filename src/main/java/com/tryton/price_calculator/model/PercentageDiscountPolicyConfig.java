@@ -1,5 +1,6 @@
 package com.tryton.price_calculator.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class PercentageDiscountPolicyConfig extends BaseParameters {
+    @Schema(example = "20")
     @NotNull(message = "discount is mandatory")
     private BigDecimal discount;
 }

@@ -61,14 +61,13 @@ public class CalculatorConfig {
 
     @Bean
     public AppliedDiscountPolicyService appliedDiscountPolicyService() {
-        return new AppliedDiscountPolicyService(appliedDiscountPolicyConfigRepository,
+        return new AppliedDiscountPolicyService(defaultPolicyName, appliedDiscountPolicyConfigRepository,
                 Mappers.getMapper(AppliedDiscountPolicyConfigMapper.class));
     }
 
     @Bean
     public DiscountPolicySelector configBasedDiscountPolicySelector() {
-        return new ConfigBasedDiscountPolicySelector(defaultPolicyName,
-                percentageDiscountPolicyService(),
+        return new ConfigBasedDiscountPolicySelector(percentageDiscountPolicyService(),
                 amountDiscountPolicyService(),
                 () -> new NoDiscountPolicy(),
                 appliedDiscountPolicyService()

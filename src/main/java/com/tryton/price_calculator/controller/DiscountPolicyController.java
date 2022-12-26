@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -84,10 +85,10 @@ public class DiscountPolicyController {
             @ApiResponse(responseCode = "400", description = "In case of validation error",
                     content = @Content)})
     @ResponseStatus(HttpStatus.CREATED)
-    public void updateAmmountDiscountPolicy(@Valid @RequestBody AmountDiscountPolicyConfig discountPolicy) {
-        log.info("Starting updatePercentageDiscountPolicy.");
+    public void updateAmountDiscountPolicy(@Valid @RequestBody AmountDiscountPolicyConfig discountPolicy) {
+        log.info("Starting updateAmountDiscountPolicy.");
         amountDiscountPolicyService.upsert(discountPolicy);
-        log.info("Finished updatePercentageDiscountPolicy.");
+        log.info("Finished updateAmountDiscountPolicy.");
     }
 
     @GetMapping(path = "/discount-policy/current")
