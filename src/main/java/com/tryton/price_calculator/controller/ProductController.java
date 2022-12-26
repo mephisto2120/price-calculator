@@ -3,6 +3,8 @@ package com.tryton.price_calculator.controller;
 import com.tryton.price_calculator.model.Product;
 import com.tryton.price_calculator.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,6 +32,9 @@ public class ProductController {
 
     @GetMapping(path = "/products")
     @Operation(summary = "Retrieves info about product")
+    @Parameters({
+            @Parameter(name = "productId", example = "abc-123")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retrieves info about product",
                     content = {@Content(mediaType = "application/json")}),
@@ -46,7 +51,7 @@ public class ProductController {
     @Operation(summary = "Adding a new product")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retrieves info about product",
-                    content = {@Content(mediaType = "application/json")}),
+                    content = {@Content(mediaType = "text/plain")}),
             @ApiResponse(responseCode = "400", description = "In case of validation error",
                     content = @Content)})
     public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {

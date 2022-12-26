@@ -17,8 +17,6 @@ import static org.mockito.BDDMockito.then;
 @ExtendWith(MockitoExtension.class)
 class ConfigBasedDiscountPolicySelectorTest {
 
-    private static final String DEFAULT_POLICY_NAME = "defaultPolicyName";
-
     @Mock
     private DiscountPolicy discountPolicyMock;
 
@@ -35,15 +33,17 @@ class ConfigBasedDiscountPolicySelectorTest {
 
     @BeforeEach
     void setUp() {
-        configBasedDiscountPolicySelector = new ConfigBasedDiscountPolicySelector(DEFAULT_POLICY_NAME,
+        configBasedDiscountPolicySelector = new ConfigBasedDiscountPolicySelector(
                 percentageBasedDiscountPolicyProviderMock, amountBasedDiscountPolicyProviderMock,
                 noDiscountPolicyProviderMock, appliedDiscountPolicyServiceMock);
     }
 
     @Test
-    void shouldSelectNoDiscountPolicyWhenAppliedDiscountPolicyServiceFoundNothing() {
+    void shouldSelectNoDiscountPolicy() {
         //given
+        AppliedDiscountPolicyConfig config = createAppliedDiscountPolicyConfig("noPolicy");
         given(noDiscountPolicyProviderMock.provide()).willReturn(discountPolicyMock);
+        given(appliedDiscountPolicyServiceMock.get()).willReturn(config);
 
         //when
         DiscountPolicy selected = configBasedDiscountPolicySelector.select();

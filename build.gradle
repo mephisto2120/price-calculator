@@ -119,7 +119,7 @@ jacocoTestCoverageVerification {
 			}
 			limit {
 				counter = 'BRANCH'
-				minimum = 0.22
+				minimum = 0.19
 			}
 			limit {
 				counter = 'COMPLEXITY'
